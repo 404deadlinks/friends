@@ -18,6 +18,7 @@
             box-sizing: border-box;
             overflow: hidden;
         }
+
         .card {
             background-color: #020617;
             border: 2px solid #334155;
@@ -28,15 +29,18 @@
             text-align: center;
             box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
         }
+
         h1 {
             color: #38bdf8;
             margin-bottom: 8px;
             font-size: 2rem;
         }
+
         .subtitle {
             color: #94a3b8;
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
+
         input {
             padding: 14px;
             width: 100%;
@@ -46,6 +50,28 @@
             margin-bottom: 20px;
             text-align: center;
         }
+
+        /* 🔥 NOMBRE DESTACADO PERMANENTE */
+        .highlight-name {
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #38bdf8;
+            text-shadow:
+                0 0 10px rgba(56, 189, 248, 0.9),
+                0 0 25px rgba(56, 189, 248, 0.7),
+                0 0 50px rgba(56, 189, 248, 0.5);
+            margin: 14px 0 22px;
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
         .message {
             background-color: #0f172a;
             border: 1px dashed #475569;
@@ -56,12 +82,14 @@
             color: #a5f3fc;
             font-size: 1.1rem;
         }
+
         .buttons {
             display: flex;
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
         }
+
         button {
             padding: 14px 28px;
             font-family: 'Courier New', monospace;
@@ -73,35 +101,43 @@
             flex: 1;
             min-width: 160px;
         }
+
         .btn-primary {
             background: linear-gradient(45deg, #38bdf8, #0ea5e9);
             color: white;
         }
+
         .btn-accept {
             background: linear-gradient(45deg, #10b981, #34d399);
             color: white;
         }
+
         .btn-reject {
             background: linear-gradient(45deg, #ef4444, #f87171);
             color: white;
         }
+
         .emoji-big {
             font-size: 4rem;
             margin: 20px 0;
             animation: float 3s ease-in-out infinite;
         }
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-15px); }
         }
-        .hidden {
-            display: none;
-        }
+
         footer {
             margin-top: 24px;
             font-size: 0.85rem;
             color: #64748b;
         }
+
+        .hidden {
+            display: none;
+        }
+
         canvas#confetti {
             position: fixed;
             top: 0;
@@ -115,6 +151,7 @@
 </head>
 <body>
 
+<!-- INGRESO DE NOMBRE -->
 <div class="card" id="name-screen">
     <h1>🔐 ACCESO RESTRINGIDO</h1>
     <p class="subtitle">Identifícate para continuar</p>
@@ -122,9 +159,15 @@
     <button class="btn-primary" id="start">INICIAR PROTOCOLO 🚀</button>
 </div>
 
+<!-- TARJETA PRINCIPAL -->
 <div class="card hidden" id="main-card">
     <h1>🎁 AMIGO SECRETO</h1>
+
+    <!-- NOMBRE SIEMPRE DESTACADO -->
+    <div id="user-display" class="highlight-name"></div>
+
     <p class="subtitle" id="subtitle"></p>
+
     <div class="emoji-big">🍪✨</div>
 
     <div class="message" id="message">
@@ -143,7 +186,7 @@
     </div>
 
     <footer>
-        // Protocolo secreto ejecutado • Build v1.1 • Snack confirmado ✔️
+        // Protocolo secreto ejecutado • Build v1.3 • Identidad confirmada ✔️
     </footer>
 </div>
 
@@ -159,6 +202,7 @@
     const nameScreen = document.getElementById('name-screen');
     const mainCard = document.getElementById('main-card');
     const subtitle = document.getElementById('subtitle');
+    const userDisplay = document.getElementById('user-display');
     const message = document.getElementById('message');
     const acceptBtn = document.getElementById('accept');
     const rejectBtn = document.getElementById('reject');
@@ -168,10 +212,14 @@
 
     startBtn.onclick = () => {
         if (nameInput.value.trim() === "") return;
-        userName = nameInput.value.trim();
+
+        userName = nameInput.value.trim().toUpperCase(); // 🔒 FORZADO A MAYÚSCULAS
+
         nameScreen.classList.add('hidden');
         mainCard.classList.remove('hidden');
-        subtitle.textContent = `Sistema de entrega de snack activado para ${userName}...`;
+
+        userDisplay.textContent = userName;
+        subtitle.textContent = "Sistema de entrega de snack activado...";
         finalText.textContent = `10g sin culpa activados para ${userName}`;
     };
 
@@ -199,14 +247,13 @@
         } else if (rejectCount === 2) {
             message.textContent = `${userName}, las galletas no se rechazan... 🤨`;
         } else if (rejectCount === 3) {
-            message.textContent = `Ok ${userName}, pero son 10g SIN CULPA ⚡🍪`;
+            message.textContent = `OK ${userName}, PERO SON 10G SIN CULPA ⚡🍪`;
         } else {
-            message.textContent = `¡${userName}, acepta de una vez que se enfrían! 😭`;
-            rejectBtn.textContent = "Bueno... aceptar 🥺";
+            message.textContent = `¡${userName}, ACEPTA DE UNA VEZ QUE SE ENFRÍAN! 😭`;
+            rejectBtn.textContent = "BUENO... ACEPTAR 🥺";
         }
     };
 </script>
 
 </body>
 </html>
-
